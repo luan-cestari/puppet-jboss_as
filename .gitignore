@@ -1,0 +1,15 @@
+# OS files and editors' temp files
+.DS_Store
+._*
+*.swp
+*~
+
+# Puppet-specific
+metadata.json
+pkg/
+
+# Ignore distributions and applications in files/
+files/*.tar.gz
+files/*.ear
+files/*.war
+files/*.zip
