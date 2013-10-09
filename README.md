@@ -1,10 +1,11 @@
 # rji-jboss\_as [![Build Status](https://travis-ci.org/rji/puppet-jboss_as.png?branch=master)](https://travis-ci.org/rji/puppet-jboss_as)
 A Puppet module to manage the installation, configuration, and application deployments for JBoss Application Server 7. It is compatible with Enterprise Linux and Ubuntu.
 
-    * Project page: <https://github.com/rji/puppet-jboss_as>
-    * Puppet Forge: <http://forge.puppetlabs.com/rji/jboss_as>
+  * Project page: <https://github.com/rji/puppet-jboss_as>
+  * Puppet Forge: <http://forge.puppetlabs.com/rji/jboss_as>
 
 ## Features
+
   * Install and configure JBoss AS 7 on Enterprise Linux and Ubuntu; this has been tested on CentOS 6 and Ubuntu 12.04.
   * Deploy and undeploy multiple Java application packages, using either hot or cold deployment methods.
   * A starting point for Puppet/ERB templating to suit your environment.
@@ -12,10 +13,10 @@ A Puppet module to manage the installation, configuration, and application deplo
 ## Getting Started
 rji-jboss\_as was developed and tested using Puppet 2.7.x on CentOS 6.4 and Ubuntu 12.04.
 
-    * The node that JBoss AS is being installed on should already have a working Java installation. If not, check out the [puppetlabs-java](https://github.com/puppetlabs/puppetlabs-java) module to manage OpenJDK.
-    * Download the [JBoss AS 7.1.1](http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz) tarball from jboss.org and place it in the `files/` directory.
-    * A working knowledge of JBoss AS installation, configuration, and application deployments.
-    * A healthy background with Puppet/ERB templating. Because JBoss AS is a very powerful application server, it is not realistic to manage _every_ aspect of its configuration here. A certain level of customization is expected for each environment.
+  * The node that JBoss AS is being installed on should already have a working Java installation. If not, check out the [puppetlabs-java](https://github.com/puppetlabs/puppetlabs-java) module to manage OpenJDK.
+  * Download the [JBoss AS 7.1.1](http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz) tarball from jboss.org and place it in the `files/` directory.
+  * A working knowledge of JBoss AS installation, configuration, and application deployments.
+  * A healthy background with Puppet/ERB templating. Because JBoss AS is a very powerful application server, it is not realistic to manage _every_ aspect of its configuration here. A certain level of customization is expected for each environment.
 
 ## Usage
 Basic usage to install and configure JBoss AS, and deploy an archive named `helloworld.war`:
