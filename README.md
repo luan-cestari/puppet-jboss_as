@@ -1,4 +1,4 @@
-# rji-jboss\_as
+# rji-jboss\_as [![Build Status](https://travis-ci.org/rji/puppet-jboss_as.png?branch=master)](https://travis-ci.org/rji/puppet-jboss_as)
 A Puppet module to manage the installation, configuration, and application deployments for JBoss Application Server 7. It is compatible with Enterprise Linux and Ubuntu.
 
     * Project page: <https://github.com/rji/puppet-jboss_as>
