@@ -32,9 +32,9 @@ class jboss_as (
     # Note that this module doesn't manage Java installations. If you need to
     # manage Java, try <https://github.com/puppetlabs/puppetlabs-java>
     exec { 'check-java':
-      path      => $::path,
-      command   => 'java -version',
-      logoutput => 'on_failure'
+      path    => $::path,
+      command => 'java -version',
+      unless  => 'java -version'
     }
 
     # Proceed with installation and config
