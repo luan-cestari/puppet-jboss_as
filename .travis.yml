@@ -4,3 +4,4 @@ notifcations:
     - me@rogerignazio.com
 env:
   - PUPPET_VERSION=2.7.23
+  - PUPPET_VERSION=3.0
