@@ -3,6 +3,7 @@
 ._*
 *.swp
 *~
+Gemfile.lock
 
 # Puppet-specific
 metadata.json
