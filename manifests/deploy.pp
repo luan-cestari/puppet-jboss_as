@@ -4,11 +4,10 @@
 define jboss_as::deploy(
   $pkg         = $title,
   $is_deployed = true,
-  $deploy_dir  = '/usr/share/jboss-as/standalone/deployments',
   $hot_deploy  = true
 ) {
-
   include jboss_as
+  $deploy_dir = "${jboss_as::jboss_home}/standalone/deployments"
 
   case $is_deployed {
     true:  { $ensure = 'present' }

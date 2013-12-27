@@ -11,12 +11,12 @@
 # Server. Application deployments can then be managed using `jboss_as::deploy`.
 #
 class jboss_as (
-    $jboss_user  = 'jboss-as',
-    $jboss_group = 'jboss-as',
-    $jboss_dist  = 'jboss-as-7.1.1.Final.tar.gz',
-    $jboss_home  = '/usr/share/jboss-as',
-    $staging_dir = '/tmp/puppet-staging/jboss_as'
-){
+    $jboss_user  = $jboss_as::params::jboss_user,
+    $jboss_group = $jboss_as::params::jboss_group,
+    $jboss_dist  = $jboss_as::params::jboss_dist,
+    $jboss_home  = $jboss_as::params::jboss_home,
+    $staging_dir = $jboss_as::params::staging_dir
+) inherits jboss_as::params {
     # Ensure we're on a supported OS
     case $::operatingsystem {
         redhat, centos: { $supported = true }

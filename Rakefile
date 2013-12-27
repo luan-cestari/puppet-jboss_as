@@ -7,6 +7,7 @@ RSpec::Core::RakeTask.new(:spec) do |t|
 end
 
 PuppetLint.configuration.ignore_paths = ['vendor/**/*.pp']
+PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 
 # Default task
 task :default => [:spec, :lint] 
