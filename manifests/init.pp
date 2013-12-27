@@ -11,11 +11,12 @@
 # Server. Application deployments can then be managed using `jboss_as::deploy`.
 #
 class jboss_as (
-    $jboss_user  = $jboss_as::params::jboss_user,
-    $jboss_group = $jboss_as::params::jboss_group,
-    $jboss_dist  = $jboss_as::params::jboss_dist,
-    $jboss_home  = $jboss_as::params::jboss_home,
-    $staging_dir = $jboss_as::params::staging_dir
+    $jboss_user     = $jboss_as::params::jboss_user,
+    $jboss_group    = $jboss_as::params::jboss_group,
+    $jboss_dist     = $jboss_as::params::jboss_dist,
+    $jboss_home     = $jboss_as::params::jboss_home,
+    $staging_dir    = $jboss_as::params::staging_dir,
+    $standalone_tpl = $jboss_as::params::standalone_tpl
 ) inherits jboss_as::params {
     # Ensure we're on a supported OS
     case $::operatingsystem {

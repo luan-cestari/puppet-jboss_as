@@ -8,7 +8,7 @@ class jboss_as::config {
     owner   => 'root',
     group   => $jboss_as::jboss_group,
     mode    => '0644',
-    content => template('jboss_as/standalone.xml.erb'),
+    content => template($jboss_as::standalone_tpl),
     require => Class['jboss_as::install']
   }
 
