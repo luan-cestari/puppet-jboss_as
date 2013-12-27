@@ -37,11 +37,12 @@ Otherwise, you can override the default parameters. All (current) parameters tha
 
     node 'app1.example.com' {
         class { 'jboss_as':
-            jboss_dist  => 'jboss-as-7.1.1.Final.tar.gz',
-            jboss_user  => 'jboss-as',
-            jboss_group => 'jboss-as',
-            jboss_home  => '/usr/share/jboss-as',
-            staging_dir => '/tmp/puppet-staging/jboss_as'
+            jboss_dist     => 'jboss-as-7.1.1.Final.tar.gz',
+            jboss_user     => 'jboss-as',
+            jboss_group    => 'jboss-as',
+            jboss_home     => '/usr/share/jboss-as',
+            staging_dir    => '/tmp/puppet-staging/jboss_as',
+            standalone_tpl => 'jboss_as/standalone.xml.erb'
         }
     }
 
@@ -60,7 +61,6 @@ You can override the default class parameters on a deployment-by-deployment basi
         jboss_as::deploy { 'helloworld':
             pkg         => 'helloworld.war',
             is_deployed => true,
-            deploy_dir  => '/usr/share/jboss-as/standalone/deployments',
             hot_deploy  => false
         }
     }
