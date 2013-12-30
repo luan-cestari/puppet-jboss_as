@@ -41,7 +41,7 @@ describe 'jboss_as' do
   context 'On an unsupported OS' do
     let :facts do
       {
-        :operatingsystem => 'CentOS'
+        :operatingsystem => 'foo'
       }
     end
 
