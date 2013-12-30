@@ -1,12 +1,21 @@
 require 'spec_helper'
 
 describe 'jboss_as' do
-  let(:facts)       { {:operatingsystem => 'CentOS'} }
-  let(:params)      { { :jboss_dist  => 'jboss-as-7.1.1.Final.tar.gz',
-                        :jboss_user  => 'jboss-as',
-                        :jboss_group => 'jboss-as',
-                        :jboss_home  => '/usr/share/jboss-as',
-                        :staging_dir => '/tmp/puppet-staging/jboss_as' } }
+  let :facts do
+    {
+      :operatingsystem => 'CentOS'
+    }
+  end
+
+  let :params do
+    {
+      :jboss_dist  => 'jboss-as-7.1.1.Final.tar.gz',
+      :jboss_user  => 'jboss-as',
+      :jboss_group => 'jboss-as',
+      :jboss_home  => '/usr/share/jboss-as',
+      :staging_dir => '/tmp/puppet-staging/jboss_as'
+    }
+  end
 
   it { should include_class('jboss_as::install') }
   it { should include_class('jboss_as::config') }
