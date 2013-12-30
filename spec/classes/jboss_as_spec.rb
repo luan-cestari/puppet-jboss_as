@@ -38,4 +38,15 @@ describe 'jboss_as' do
     })
   end
 
+  context 'On an unsupported OS' do
+    let :facts do
+      {
+        :operatingsystem => 'CentOS'
+      }
+    end
+
+    it do
+      expect { should raise_error(Puppet::Error) }
+    end
+  end
 end
