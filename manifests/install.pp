@@ -57,26 +57,13 @@ class jboss_as::install {
   }
 
   # Install the init scripts and the service to chkconfig / rc.d
-  case $::operatingsystem {
-    redhat, centos: {
-      $initscript_template = 'jboss-as-initscript-el.sh.erb'
-      $exec_cmd            = 'chkconfig --add jboss-as'
-    }
-    ubuntu: {
-      $initscript_template = 'jboss-as-initscript-ubuntu.sh.erb'
-      $exec_cmd            = 'update-rc.d jboss-as defaults'
-    }
-    default: {
-      # Note that we should never make it here... if the OS is unsupported,
-      # it should have failed in `init.pp`.
-      fail("Unsupported operating system ${::operatingsystem}")
-    }
-  }
-
+  #
   # Because variable scope is inconsistent between Puppet 2.7 and 3.x,
   # we need to redefine the JBOSS_HOME variable within this scope.
   # For more info, see http://docs.puppetlabs.com/guides/templating.html
-  $this_jboss_home = $jboss_home
+  $this_jboss_home        = $jboss_home
+  $initscript_template    = $jboss_as::params::initscript_template
+  $initscript_install_cmd = $jboss_as::params::initscript_install_cmd
 
   file { '/etc/init.d/jboss-as':
     ensure  => present,
@@ -87,7 +74,7 @@ class jboss_as::install {
   }
 
   exec { 'install_service':
-    command => $exec_cmd,
+    command => $initscript_install_cmd,
     require => File['/etc/init.d/jboss-as'],
     unless  => 'test -f /etc/init.d/jboss-as'
   }
