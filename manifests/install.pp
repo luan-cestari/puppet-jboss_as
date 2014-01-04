@@ -34,15 +34,19 @@ class jboss_as::install {
     source  => "puppet:///modules/jboss_as/${jboss_as::jboss_dist}"
   }
 
-  exec { 'extract_and_set_permissions':
+  exec { 'extract':
     path    => ['/usr/bin', '/bin'],
-    command => "tar zxf ${jboss_as::staging_dir}/${jboss_as::jboss_dist} \
-                --strip-components=1 -C ${jboss_as::jboss_home} && \
-                chown -R ${jboss_as::jboss_user}:${jboss_as::jboss_group} \
-                ${jboss_as::jboss_home}",
+    command => "tar zxf ${jboss_as::staging_dir}/${jboss_as::jboss_dist} --strip-components=1 -C ${jboss_as::jboss_home}",
     unless  => "test -d ${jboss_as::jboss_home}/standalone",
     require => File["${jboss_as::staging_dir}/${jboss_as::jboss_dist}",
                       $jboss_as::jboss_home]
+  }
+
+  exec { 'set_permissions':
+    path    => ['/usr/bin', '/bin'],
+    command => "chown -R ${jboss_as::jboss_user}:${jboss_as::jboss_group} ${jboss_as::jboss_home}",
+    unless  => "test -d ${jboss_as::jboss_home}/standalone",
+    require => Exec['extract']
   }
 
   # Install the init scripts and the service to chkconfig / rc.d
