@@ -8,9 +8,19 @@
 #   3. Install the init script to /etc/init.d and add the service to chkconfig.
 #
 class jboss_as::install {
+  # Bring variables in-scope to improve readability
+  $jboss_user  = $jboss_as::jboss_user
+  $jboss_group = $jboss_as::jboss_group
+  $jboss_home  = $jboss_as::jboss_home
+  $jboss_dist  = $jboss_as::jboss_dist
+  $staging_dir = $jboss_as::staging_dir
+
+  Exec {
+    path => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  }
 
   # Create the user that JBoss AS will run as
-  user { $jboss_as::jboss_user:
+  user { $jboss_user:
     ensure     => present,
     shell      => '/bin/bash',
     membership => 'minimum',
@@ -21,31 +31,28 @@ class jboss_as::install {
   # knowing what directory the user chose for staging, or how deep it is,
   # we have this ugly hack.
   exec { 'create_staging_dir':
-    command => "/bin/mkdir -p ${jboss_as::staging_dir}",
-    unless  => "/usr/bin/test -d ${jboss_as::staging_dir}"
+    command => "mkdir -p ${staging_dir}",
+    unless  => "test -d ${staging_dir}"
   }
 
-  file { $jboss_as::jboss_home: ensure => directory }
+  file { $jboss_home: ensure => directory }
 
   # Download the distribution tarball from the Puppet Master
   # and extract to $JBOSS_HOME
-  file { "${jboss_as::staging_dir}/${jboss_as::jboss_dist}":
+  file { "${staging_dir}/${jboss_dist}":
     ensure  => file,
-    source  => "puppet:///modules/jboss_as/${jboss_as::jboss_dist}"
+    source  => "puppet:///modules/jboss_as/${jboss_dist}"
   }
 
   exec { 'extract':
-    path    => ['/usr/bin', '/bin'],
-    command => "tar zxf ${jboss_as::staging_dir}/${jboss_as::jboss_dist} --strip-components=1 -C ${jboss_as::jboss_home}",
-    unless  => "test -d ${jboss_as::jboss_home}/standalone",
-    require => File["${jboss_as::staging_dir}/${jboss_as::jboss_dist}",
-                      $jboss_as::jboss_home]
+    command => "tar zxf ${staging_dir}/${jboss_dist} --strip-components=1 -C ${jboss_home}",
+    unless  => "test -d ${jboss_home}/standalone",
+    require => File["${staging_dir}/${jboss_dist}", $jboss_home]
   }
 
   exec { 'set_permissions':
-    path    => ['/usr/bin', '/bin'],
-    command => "chown -R ${jboss_as::jboss_user}:${jboss_as::jboss_group} ${jboss_as::jboss_home}",
-    unless  => "test -d ${jboss_as::jboss_home}/standalone",
+    command => "chown -R ${jboss_user}:${jboss_group} ${jboss_home}",
+    unless  => "test -d ${jboss_home}/standalone",
     require => Exec['extract']
   }
 
@@ -69,7 +76,7 @@ class jboss_as::install {
   # Because variable scope is inconsistent between Puppet 2.7 and 3.x,
   # we need to redefine the JBOSS_HOME variable within this scope.
   # For more info, see http://docs.puppetlabs.com/guides/templating.html
-  $this_jboss_home = $jboss_as::jboss_home
+  $this_jboss_home = $jboss_home
 
   file { '/etc/init.d/jboss-as':
     ensure  => present,
@@ -80,7 +87,6 @@ class jboss_as::install {
   }
 
   exec { 'install_service':
-    path    => ['/bin', '/usr/bin', '/sbin', '/usr/sbin'],
     command => $exec_cmd,
     require => File['/etc/init.d/jboss-as'],
     unless  => 'test -f /etc/init.d/jboss-as'
