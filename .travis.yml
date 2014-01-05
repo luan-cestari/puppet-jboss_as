@@ -14,3 +14,8 @@ matrix:
         - {rvm: 1.9.3, env: PUPPET_VERSION=2.7.23}
         - {rvm: 2.0.0, env: PUPPET_VERSION=2.7.23}
         - {rvm: 2.0.0, env: PUPPET_VERSION=3.1.0}
+before_install:
+  - gem update bundler
+  - bundle --version
+  - gem update --system 2.1.11
+  - gem --version
