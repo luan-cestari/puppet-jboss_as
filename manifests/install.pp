@@ -53,7 +53,7 @@ class jboss_as::install {
     command => "mv ${jboss_home}/jboss-eap-6.2/* ${jboss_home}/ && rm -rf ${jboss_home}/jboss-eap-6.2",
     unless  => "test -d ${jboss_home}/standalone",
     require => File["${staging_dir}/${jboss_dist}", $jboss_home],
-    Exec['extract']
+    require => Exec['extract']
   }
 
   exec { 'set_permissions':
