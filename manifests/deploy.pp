@@ -5,7 +5,8 @@ define jboss_as::deploy(
   $pkg         = $title,
   $is_deployed = true,
   $hot_deploy  = true,
-  $tmp  = false
+  $tmp  = false,
+  $jboss_user = 'root',
 ) {
   include jboss_as
   $deploy_dir = "${jboss_as::jboss_home}/standalone/deployments"
@@ -30,26 +31,30 @@ define jboss_as::deploy(
     if ($hot_deploy == true) {
       file { "${deploy_dir}/${pkg}":
         ensure => $ensure,
-        source => "puppet:///modules/jboss_as/${pkg}"
+        source => "puppet:///modules/jboss_as/${pkg}",
+        owner  => $jboss_user,
       }
     } else {
       file { "${deploy_dir}/${pkg}":
         ensure => $ensure,
         source => "puppet:///modules/jboss_as/${pkg}",
-        notify => Service['jboss-as']
+        owner  => $jboss_user,
+        notify => Service['jboss-as'],
       }
     }
   } else {
     if ($hot_deploy == true) {
       file { "${deploy_dir}/${pkg}":
         ensure => $ensure,
-        source => "/tmp/${pkg}"
+        source => "/tmp/${pkg}",
+        owner  => $jboss_user,
       }
     } else {
       file { "${deploy_dir}/${pkg}":
         ensure => $ensure,
         source => "/tmp/${pkg}",
-        notify => Service['jboss-as']
+        owner  => $jboss_user,
+        notify => Service['jboss-as'],
       }
     }
   }
