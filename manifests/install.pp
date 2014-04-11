@@ -41,19 +41,25 @@ class jboss_as::install {
   # and extract to $JBOSS_HOME
   file { "${staging_dir}/${jboss_dist}":
     ensure  => file,
-    source  => "puppet:///modules/jboss_as/${jboss_dist}"
+    source  => "/tmp/eap.zip"
   }
 
   exec { 'extract':
-    command => "tar zxf ${staging_dir}/${jboss_dist} --strip-components=1 -C ${jboss_home}",
-    unless  => "test -d ${jboss_home}/standalone",
+    command => "unzip ${staging_dir}/${jboss_dist} -d ${jboss_home}",
     require => File["${staging_dir}/${jboss_dist}", $jboss_home]
+  }
+
+  exec { 'strip':
+    command => "mv ${jboss_home}/jboss-eap-6.2/* ${jboss_home}/ && rm -rf ${jboss_home}/jboss-eap-6.2",
+    unless  => "test -d ${jboss_home}/standalone",
+    require => File["${staging_dir}/${jboss_dist}", $jboss_home],
+    Exec['extract']
   }
 
   exec { 'set_permissions':
     command => "chown -R ${jboss_user}:${jboss_group} ${jboss_home}",
     unless  => "test -d ${jboss_home}/standalone",
-    require => Exec['extract']
+    require => Exec['strip']
   }
 
   # Install the init scripts and the service to chkconfig / rc.d

@@ -4,7 +4,8 @@
 define jboss_as::deploy(
   $pkg         = $title,
   $is_deployed = true,
-  $hot_deploy  = true
+  $hot_deploy  = true,
+  $tpm  = false
 ) {
   include jboss_as
   $deploy_dir = "${jboss_as::jboss_home}/standalone/deployments"
@@ -25,18 +26,31 @@ define jboss_as::deploy(
     mode    => '0664',
     require => Class['jboss_as::install', 'jboss_as::config']
   }
-
-  if ($hot_deploy == true) {
-    file { "${deploy_dir}/${pkg}":
-      ensure => $ensure,
-      source => "puppet:///modules/jboss_as/${pkg}"
+  if($tpm == false) {
+    if ($hot_deploy == true) {
+      file { "${deploy_dir}/${pkg}":
+        ensure => $ensure,
+        source => "puppet:///modules/jboss_as/${pkg}"
+      }
+    } else {
+      file { "${deploy_dir}/${pkg}":
+        ensure => $ensure,
+        source => "puppet:///modules/jboss_as/${pkg}",
+        notify => Service['jboss-as']
+      }
     }
-  }
-  else {
-    file { "${deploy_dir}/${pkg}":
-      ensure => $ensure,
-      source => "puppet:///modules/jboss_as/${pkg}",
-      notify => Service['jboss-as']
+  } else {
+    if ($hot_deploy == true) {
+      file { "${deploy_dir}/${pkg}":
+        ensure => $ensure,
+        source => "/tmp/${pkg}"
+      }
+    } else {
+      file { "${deploy_dir}/${pkg}":
+        ensure => $ensure,
+        source => "/tmp/${pkg}",
+        notify => Service['jboss-as']
+      }
     }
   }
 }
