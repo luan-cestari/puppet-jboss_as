@@ -5,7 +5,7 @@ define jboss_as::deploy(
   $pkg         = $title,
   $is_deployed = true,
   $hot_deploy  = true,
-  $tpm  = false
+  $tmp  = false
 ) {
   include jboss_as
   $deploy_dir = "${jboss_as::jboss_home}/standalone/deployments"
@@ -26,7 +26,7 @@ define jboss_as::deploy(
     mode    => '0664',
     require => Class['jboss_as::install', 'jboss_as::config']
   }
-  if($tpm == false) {
+  if($tmp == false) {
     if ($hot_deploy == true) {
       file { "${deploy_dir}/${pkg}":
         ensure => $ensure,
