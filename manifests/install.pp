@@ -43,16 +43,16 @@ class jboss_as::install {
     purge => true,
     force => true,
   }->
-  file { "create ${staging_dir}/${jboss_dist}":
-    path => "${staging_dir}/${jboss_dist}",
-    ensure  => file,
-    source  => "/tmp/eap.zip",
-  }->
-  file { "remove ${jboss_home}":
+  file { "remove the ${jboss_home}":
     path => "${jboss_home}",
     ensure => directory,
     purge => true,
     force => true,
+  }->
+  file { "create ${staging_dir}/${jboss_dist}":
+    path => "${staging_dir}/${jboss_dist}",
+    ensure  => file,
+    source  => "/tmp/eap.zip",
   }->
   exec { 'extract':
     command => "unzip ${staging_dir}/${jboss_dist} -d ${jboss_home}",
