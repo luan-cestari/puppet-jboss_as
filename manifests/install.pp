@@ -37,32 +37,24 @@ class jboss_as::install {
 
   file { $jboss_home: ensure => directory }
 
-  file { "remove ${staging_dir}/${jboss_dist}":
-    path => "${staging_dir}/${jboss_dist}",
-    ensure => file,
-    purge => true,
-    force => true,
-  }->
-  file { "remove the ${jboss_home}":
-    path => "${jboss_home}",
-    ensure => directory,
-    purge => true,
-    force => true,
-  }->
-  file { "create ${staging_dir}/${jboss_dist}":
-    path => "${staging_dir}/${jboss_dist}",
+  # Download the distribution tarball from the Puppet Master
+  # and extract to $JBOSS_HOME
+  file { "${staging_dir}/${jboss_dist}":
     ensure  => file,
-    source  => "/tmp/eap.zip",
-  }->
+    source  => "/tmp/eap.zip"
+  }
+
   exec { 'extract':
-    command => "unzip ${staging_dir}/${jboss_dist} -d ${jboss_home}",
+    command => "unzip -o ${staging_dir}/${jboss_dist} -d ${jboss_home}",
     require => File["${staging_dir}/${jboss_dist}", $jboss_home]
-  }->
+  }
+
   exec { 'strip':
     command => "mv ${jboss_home}/jboss-eap-6.2/* ${jboss_home}/ && rm -rf ${jboss_home}/jboss-eap-6.2",
     unless  => "test -d ${jboss_home}/standalone",
     require => [File["${staging_dir}/${jboss_dist}", $jboss_home],Exec['extract']],
-  }->
+  }
+
   exec { 'set_permissions':
     command => "chown -R ${jboss_user}:${jboss_group} ${jboss_home}",
     unless  => "test -d ${jboss_home}/standalone",
