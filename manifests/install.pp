@@ -37,18 +37,19 @@ class jboss_as::install {
 
   file { $jboss_home: ensure => directory }
 
-  # Download the distribution tarball from the Puppet Master
-  # and extract to $JBOSS_HOME
-  file { "${staging_dir}/${jboss_dist}":
+  file { "remove ${staging_dir}/${jboss_dist}":
+    path => "${staging_dir}/${jboss_dist}",
     ensure => file,
     purge => true,
     force => true,
   }->
-  file { "${staging_dir}/${jboss_dist}":
+  file { "create ${staging_dir}/${jboss_dist}":
+    path => "${staging_dir}/${jboss_dist}",
     ensure  => file,
-    source  => "/tmp/eap.zip"
+    source  => "/tmp/eap.zip",
   }->
-  file { "${jboss_home}":
+  file { "remove ${jboss_home}":
+    path => "${jboss_home}",
     ensure => directory,
     purge => true,
     force => true,
