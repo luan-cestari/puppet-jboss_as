@@ -50,7 +50,7 @@ class jboss_as::install {
   }->
 
   exec { 'strip':
-    command => "mv ${jboss_home}/jboss-eap-6.2/* ${jboss_home}/ && rm -rf ${jboss_home}/jboss-eap-6.2",
+    command => "rsync -a ${jboss_home}/jboss-eap-6.2/* ${jboss_home}/ && rm -rf ${jboss_home}/jboss-eap-6.2",
     require => [File["${staging_dir}/${jboss_dist}", $jboss_home],Exec['extract']],
   }->
 
