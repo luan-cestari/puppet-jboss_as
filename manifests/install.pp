@@ -51,13 +51,11 @@ class jboss_as::install {
 
   exec { 'strip':
     command => "mv ${jboss_home}/jboss-eap-6.2/* ${jboss_home}/ && rm -rf ${jboss_home}/jboss-eap-6.2",
-    unless  => "test -d ${jboss_home}/standalone",
     require => [File["${staging_dir}/${jboss_dist}", $jboss_home],Exec['extract']],
   }->
 
   exec { 'set_permissions':
     command => "chown -R ${jboss_user}:${jboss_group} ${jboss_home}",
-    unless  => "test -d ${jboss_home}/standalone",
     require => Exec['strip']
   }
 
