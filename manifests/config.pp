@@ -9,7 +9,7 @@ class jboss_as::config {
     group   => $jboss_as::jboss_group,
     mode    => '0644',
     content => template($jboss_as::standalone_tpl),
-    require => Class['jboss_as::install']
+    require => [Class['jboss_as::install'], Exec['set_permissions']]
   }
 
   file { '/etc/jboss-as': ensure => directory }
