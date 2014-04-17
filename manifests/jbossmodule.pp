@@ -14,12 +14,12 @@ define jboss_as::jbossmodule (
 
     exec { "dirs_${moduledir}":
         command  => "mkdir -p -m 0755 ${jboss_home}/modules/${moduledir}/main",
+        path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
     }->exec { "chown_${moduledir}":
         command => "chown ${owner}:${group} ${module_dir_list}",
-         require => [Exec["dirs_${moduledir}"],Class['jboss_as']],
-    }->
-
-    file { "${jboss_home}/modules/${moduledir}/main/module.xml":
+        require => [Exec["dirs_${moduledir}"],Class['jboss_as']],
+        path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+    }->file { "${jboss_home}/modules/${moduledir}/main/module.xml":
         group   => $owner,
         owner   => $group,
         mode    => '0644',
