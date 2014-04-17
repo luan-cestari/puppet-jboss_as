@@ -17,13 +17,12 @@ class jboss_as::jbossmodule (
     }->
 
     exec { "chown_${moduledir}":
-        command => "chown jboss:jboss ${module_dir_list}",
-        require => [ User['jboss'], Exec["dirs_${moduledir}"] ],
+        command => "chown ${owner}:${group} ${module_dir_list}",
     }->
 
     file { "${jboss_home}/modules/${moduledir}/main/module.xml":
         group   => $owner,
-        owner   => $group',
+        owner   => $group,
         mode    => '0644',
         content => template('jboss_as/module.xml.erb'),
         require => Exec["chown_${moduledir}"],
