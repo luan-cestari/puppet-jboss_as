@@ -1,7 +1,7 @@
 class jboss_as::jbossmodulefile (
   $jboss_home,
   $moduledir,
-  $configuration_file
+  $configuration_file,
   $owner = 'jboss_as',
   $group = 'jboss_as',
   $content,
