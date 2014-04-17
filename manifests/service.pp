@@ -8,7 +8,6 @@ class jboss_as::service {
   service { 'jboss-as':
     ensure     => running,
     enable     => true,
-    hasrestart => false,
     require    => File['/etc/jboss-as/jboss-as.conf'],
     subscribe  => File["${jboss_as::jboss_home}/standalone/configuration/standalone.xml"]
   }
