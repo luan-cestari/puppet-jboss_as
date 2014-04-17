@@ -14,11 +14,9 @@ define jboss_as::jbossmodule (
 
     exec { "dirs_${moduledir}":
         command  => "mkdir -p -m 0755 ${jboss_home}/modules/${moduledir}/main",
-    }->
-
-    exec { "chown_${moduledir}":
+    }->exec { "chown_${moduledir}":
         command => "chown ${owner}:${group} ${module_dir_list}",
-         require => Exec["dirs_${moduledir}"],
+         require => [Exec["dirs_${moduledir}"],Class['jboss_as']],
     }->
 
     file { "${jboss_home}/modules/${moduledir}/main/module.xml":
