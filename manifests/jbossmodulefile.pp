@@ -25,7 +25,7 @@ define jboss_as::jbossmodulefile (
       owner   => $owner,
       mode    => '0644',
       content => $content,
-      notify  => Service["jboss_as"],
+      notify  => Service["jboss-as"],
     }
   } else {
     file { "${jboss_home}/modules/${moduledir_strip}/main/${fconfiguration_file}":
@@ -33,7 +33,7 @@ define jboss_as::jbossmodulefile (
       owner   => $owner,
       mode    => '0644',
       content => $content,
-      notify  => Service["jboss_as"],
+      notify  => Service["jboss-as"],
     }
   }
 
