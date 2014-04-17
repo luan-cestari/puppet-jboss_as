@@ -18,6 +18,7 @@ define jboss_as::jbossmodule (
 
     exec { "chown_${moduledir}":
         command => "chown ${owner}:${group} ${module_dir_list}",
+         require => Exec["dirs_${moduledir}"],
     }->
 
     file { "${jboss_home}/modules/${moduledir}/main/module.xml":
