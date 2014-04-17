@@ -7,7 +7,6 @@ class jboss_as::jbossmodulefile (
   $content,
   ){
 
-}
   $moduledir_strip_lead = inline_template('<%=moduledir.start_with?(\'/\')?moduledir[1,moduledir.length()-1]:moduledir%>')
   $moduledir_strip = inline_template('<%=moduledir_strip_lead.end_with?(\'/\')?moduledir_strip_lead[0,moduledir_strip_lead.length()-1]:moduledir_strip_lead%>')
 
