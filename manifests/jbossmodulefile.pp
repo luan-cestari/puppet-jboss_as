@@ -25,7 +25,6 @@ define jboss_as::jbossmodulefile (
       owner   => $owner,
       mode    => '0644',
       content => $content,
-      require => File["${jboss_home}/modules/${moduledir_strip}/main/${subdir}"],
       notify  => Service["jboss_as"],
     }
   } else {
@@ -34,7 +33,6 @@ define jboss_as::jbossmodulefile (
       owner   => $owner,
       mode    => '0644',
       content => $content,
-      require => File["${jboss_home}/modules/${moduledir_strip}/main/"],
       notify  => Service["jboss_as"],
     }
   }
