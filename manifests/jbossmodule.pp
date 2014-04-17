@@ -24,7 +24,7 @@ define jboss_as::jbossmodule (
         owner   => $group,
         mode    => '0644',
         content => template('jboss_as/module.xml.erb'),
-        notify  => Service["jboss_as"],
+        notify  => Service["jboss-as"],
     }
 }
 
