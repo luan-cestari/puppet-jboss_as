@@ -1,8 +1,8 @@
 define jboss_as::jbossmodule (
   $jboss_home,
   $moduledir,
-  $owner = 'jboss_as',
-  $group = 'jboss_as',
+  $owner = 'jboss-as',
+  $group = 'jboss-as',
   ){
     # Because variable scope is inconsistent between Puppet 2.7 and 3.x,
     # we need to redefine the JBOSS_HOME variable within this scope.
