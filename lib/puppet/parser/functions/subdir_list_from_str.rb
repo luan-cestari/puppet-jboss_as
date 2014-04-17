@@ -6,7 +6,7 @@ subdir_list_from_str('/usr/lib','megafrobber/bin/') would return:
 [ '/usr/lib/megafrobber', '/usr/lib/megafrobber/bin' ]
 
 Use this if you're making a lot of directories, as in: http://www.puppetcookbook.com/posts/creating-a-directory-tree.html" ) do |args|
-    Puppet::Parser::Functions.function(:dir_list_from_str)
+    Puppet::Parser::Functions.function(:subdir_list_from_str)
     dir_list = Array.new
     # Remove trailing / from args[0]
     prefix = args[0].gsub(/\/$/, '')
