@@ -1,4 +1,4 @@
-class jboss_as::jbossmodule (
+define jboss_as::jbossmodule (
   $jboss_home,
   $moduledir,
   $owner = 'jboss_as',

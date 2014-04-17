@@ -1,4 +1,4 @@
-class jboss_as::jbossmodulefile (
+define jboss_as::jbossmodulefile (
   $jboss_home,
   $moduledir,
   $configuration_file,
